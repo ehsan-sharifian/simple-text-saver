@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>My Text Saver</title>
+        <style> 
+            body {font-family: sans-serif; margin:40px;}
+            input {padding: 8px; width: 300px;}
+            button {padding: 8px 15px; cursor: pointer;}
+        </style>
+    </head>
+    <body>
+        <h1>Save your text</h1>
+        <input type="text" id="myTextBox" maxlength="200" placeholder="Type up to 200 characters here...">
+        <button id="saveButton">Save to Server</button>
+
+        <script>
+            const textbox = document.getElementById('myTextBox');
+            const button = document.getElementById('saveButton');
+
+            button.addEventListener('click', async () => {      //async comes before function declaration and is to tell that a background task is gonna be made. 
+                                                                // () has no arguments, cuz clicks don't have any inputs. { opens the body of the function.
+                                                                // code inside of it is all that will run upon mouse click. 
+                                                                //all together: the page listens for a click on the button and runs a background function inside {}
+                
+                const textToSend = textbox.value;
+                const response = await fetch('/save', {    //await tells the page to not freeze while the fetch is in progress. fetch is to make network request. arg1: URL target
+                                                            // /save is a relative URL. It tells the browser: "Send this data to whatever domain name this website is currently hosted on!
+                    method: 'POST',                                             //{ opens a configuration object for the fetch
+                    headers: {'Content-Type': 'application/json'},              //{ opens a nested object. 'Content-Type': A standardized header key that tells the receiving server what format the payload data is in.
+                    body: JSON.stringify({message: textToSend})                 //When using POST method, you pack data inside body property of the fetch.
+                })
+//fetch:
+//It tells your web browser: "Hey, package up this text, hop onto the computer's internal network, and go knock on the door at address http://localhost:3000/save."
+//The browser launches that request out into your system. You run node server.js in terminal and get "Server running perfectly at http://localhost:3000".
+//Because your server.js file is now actively running and listening to port 3000, it hears the knock, catches the data package, and starts processing it.
+
+                if (response.ok) {
+                    alert('Text saved successfully on the server');
+                    textBox.value = '';
+                } else {
+                    alert('Oops, something went wrong!')
+                }
+            })
+        </script>
+
+    </body>
+</html>
