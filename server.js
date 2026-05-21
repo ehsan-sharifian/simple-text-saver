@@ -21,6 +21,23 @@ const server = http.createServer((req, res) => {    //{: Opens the body of our s
         return;
     }
 
+    // 1. NEW SECTION: If someone visits the main homepage URL
+    if (req.url === '/' && req.method === 'GET') {
+        // Read the index.html file from the disk
+        fs.readFile('index.html', (err, content) => {           //The file's raw data gets loaded into the content variable.
+            if (err) {
+                res.writeHead(500, { 'Content-Type': 'text/plain' });
+                res.end('Error loading homepage');
+            } else {
+                // Send the HTML code back to the browser!
+                res.writeHead(200, { 'Content-Type': 'text/html' });        //"Hey, don't just display this raw text as code. Read this text, parse the HTML tags (<div>, <button>), and render a beautiful, interactive visual webpage for the user.
+                res.end(content);
+            }
+        });
+    }
+
+
+
     // B. Check if the webpage is hitting the correct address (/save) using a POST request
     if (req.url === '/save' && req.method === 'POST') {
         let body = '';          //Declares a variable that is allowed to change its content over time.
