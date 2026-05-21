@@ -34,6 +34,7 @@ const server = http.createServer((req, res) => {    //{: Opens the body of our s
                 res.end(content);
             }
         });
+        return;
     }
 
 
