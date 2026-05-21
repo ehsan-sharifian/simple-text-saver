@@ -37,7 +37,20 @@ const server = http.createServer((req, res) => {    //{: Opens the body of our s
         return;
     }
 
-
+    else if (req.url === '/view-my-data' && req.method === 'GET') {
+        fs.readFile('saved_text.txt', 'utf8', (err, data) => {
+            if (err) {
+                // If the file doesn't exist yet, show a clean message instead of breaking
+                res.writeHead(200, { 'Content-Type': 'text/plain' });
+                res.end('No text has been saved yet.');
+            } else {
+                // Send the text file contents straight to your browser screen
+                res.writeHead(200, { 'Content-Type': 'text/plain' });
+                res.end(data);
+            }
+        });
+        return
+    }
 
     // B. Check if the webpage is hitting the correct address (/save) using a POST request
     if (req.url === '/save' && req.method === 'POST') {
