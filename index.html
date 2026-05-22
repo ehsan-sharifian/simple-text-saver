@@ -18,6 +18,13 @@
             const textbox = document.getElementById('myTextBox');
             const button = document.getElementById('saveButton');
 
+            textbox.addEventListener('keypress', (event) =>{    //Whenever a key is pressed, JavaScript creates an object called event that holds data about what just happened
+                if (event.key === 'Enter'){
+                    event.preventDefault();
+                    button.click();
+                }
+            })
+
             button.addEventListener('click', async () => {      //async comes before function declaration and is to tell that a background task is gonna be made. 
                                                                 // () has no arguments, cuz clicks don't have any inputs. { opens the body of the function.
                                                                 // code inside of it is all that will run upon mouse click. 
